@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class Hugo {
 
     private static ArrayList<String> inputs = new ArrayList<>();
+    private static final int MAJOR_INDENT_SIZE = 5;
+    private static final int MINOR_INDENT_SIZE = 4;
 
     public static void main(String[] args) {
         displayWelcomeMessage();
@@ -22,7 +24,7 @@ public class Hugo {
                 int count = 0;
                 printLine();
                 for (String input : inputs) {
-                    System.out.print((++count + ". " + input).indent(4));
+                    System.out.print((++count + ". " + input).indent(MAJOR_INDENT_SIZE));
                 }
                 printLine();
                 break;
@@ -42,7 +44,7 @@ public class Hugo {
         String echoMessage = "added: "
                 + userInput + "\n";
         printLine();
-        System.out.print(echoMessage.indent(4));
+        System.out.print(echoMessage.indent(MAJOR_INDENT_SIZE));
         printLine();
     }
 
@@ -50,18 +52,18 @@ public class Hugo {
         String welcomeMessage = "Hello! I'm Hugo\n"
                 + "What can I do for you?\n";
         printLine();
-        System.out.print(welcomeMessage.indent(4));
+        System.out.print(welcomeMessage.indent(MAJOR_INDENT_SIZE));
         printLine();
     }
 
     public static void displayExitMessage() {
         String exitMessage = "Bye. Hope to see you again soon!\n";
         printLine();
-        System.out.print(exitMessage.indent(4));
+        System.out.print(exitMessage.indent(MAJOR_INDENT_SIZE));
         printLine();
     }
 
     public static void printLine() {
-        System.out.print("____________________________________________________________".indent(4));
+        System.out.print("____________________________________________________________".indent(MINOR_INDENT_SIZE));
     }
 }
