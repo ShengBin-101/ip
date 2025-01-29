@@ -1,6 +1,9 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Hugo {
+
+    private static ArrayList<String> inputs = new ArrayList<>();
 
     public static void main(String[] args) {
         displayWelcomeMessage();
@@ -15,40 +18,50 @@ public class Hugo {
         while (isAskingInput) {
             userInputLine = scanner.nextLine();
             switch (userInputLine) {
+            case "list":
+                int count = 0;
+                printLine();
+                for (String input : inputs) {
+                    System.out.print((++count + ". " + input).indent(4));
+                }
+                printLine();
+                break;
             case "bye":
                 displayExitMessage();
                 isAskingInput = false;
                 break;
             default:
-                echoUserInput(userInputLine);
+                addUserInput(userInputLine);
                 break;
             }
         }
     }
 
-    public static void echoUserInput(String userInput) {
-        String echoMessage = printLine()
-                + userInput + "\n"
-                + printLine();
-        System.out.println(echoMessage.indent(4));
+    public static void addUserInput(String userInput) {
+        inputs.add(userInput);
+        String echoMessage = "added: "
+                + userInput + "\n";
+        printLine();
+        System.out.print(echoMessage.indent(4));
+        printLine();
     }
 
     public static void displayWelcomeMessage() {
-        String welcomeMessage = printLine()
-                + "Hello! I'm Hugo\n"
-                + "What can I do for you?\n"
-                + printLine();
-        System.out.println(welcomeMessage.indent(4));
+        String welcomeMessage = "Hello! I'm Hugo\n"
+                + "What can I do for you?\n";
+        printLine();
+        System.out.print(welcomeMessage.indent(4));
+        printLine();
     }
 
     public static void displayExitMessage() {
-        String exitMessage = printLine()
-                + "Bye. Hope to see you again soon!\n"
-                + printLine();
-        System.out.println(exitMessage.indent(4));
+        String exitMessage = "Bye. Hope to see you again soon!\n";
+        printLine();
+        System.out.print(exitMessage.indent(4));
+        printLine();
     }
 
-    public static String printLine() {
-        return "____________________________________________________________\n";
+    public static void printLine() {
+        System.out.print("____________________________________________________________".indent(4));
     }
 }
