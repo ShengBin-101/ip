@@ -33,14 +33,13 @@ public class Hugo {
                 printLine();
                 break;
             case "mark":
-                if (inputs.length > 1 ) {
+                if (inputs.length > 1) {
                     int taskId = Integer.parseInt(inputs[1]) - 1;
                     if (taskId < 0 || taskId >= tasks.size()) {
                         printLine();
                         System.out.print("Invalid task id.".indent(NORMAL_INDENT));
                         printLine();
-                    }
-                    else {
+                    } else {
                         tasks.get(taskId).markAsDone();
                         String markMessage = "Nice! I've marked this task as done:";
                         String outputLine = "[" + tasks.get(taskId).getStatusIcon() + "] " + tasks.get(taskId).getDescription();
@@ -49,8 +48,7 @@ public class Hugo {
                         System.out.print(outputLine.indent(MAJOR_INDENT));
                         printLine();
                     }
-                }
-                else{
+                } else {
                     printLine();
                     System.out.print("Please enter task number to mark!".indent(NORMAL_INDENT));
                     printLine();
@@ -63,8 +61,7 @@ public class Hugo {
                         printLine();
                         System.out.print("Invalid task id.".indent(NORMAL_INDENT));
                         printLine();
-                    }
-                    else {
+                    } else {
                         tasks.get(taskId).markAsUndone();
                         String unmarkMessage = "OK, I've marked this task as not done yet:";
                         String outputLine = "[" + tasks.get(taskId).getStatusIcon() + "] " + tasks.get(taskId).getDescription();
@@ -73,8 +70,7 @@ public class Hugo {
                         System.out.print(outputLine.indent(MAJOR_INDENT));
                         printLine();
                     }
-                }
-                else {
+                } else {
                     printLine();
                     System.out.print("Please enter task number to unmark!".indent(NORMAL_INDENT));
                     printLine();
@@ -94,16 +90,14 @@ public class Hugo {
     public static void addTask(String userInput) {
         Task newTask = new Task(userInput);
         tasks.add(newTask);
-        String echoMessage = "added: "
-                + userInput + "\n";
+        String echoMessage = "added: " + userInput + "\n";
         printLine();
         System.out.print(echoMessage.indent(NORMAL_INDENT));
         printLine();
     }
 
     public static void displayWelcomeMessage() {
-        String welcomeMessage = "Hello! I'm Hugo\n"
-                + "What can I do for you?\n";
+        String welcomeMessage = "Hello! I'm Hugo\n" + "What can I do for you?\n";
         printLine();
         System.out.print(welcomeMessage.indent(NORMAL_INDENT));
         printLine();
