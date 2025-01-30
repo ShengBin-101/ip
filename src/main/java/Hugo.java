@@ -23,7 +23,7 @@ public class Hugo {
             if (inputs[0].equals("")) {
                 // Handle empty input
                 printLine();
-                System.out.print("Please enter a task name to add".indent(NORMAL_INDENT));
+                System.out.print("Please enter a command or task name to add".indent(NORMAL_INDENT));
                 printLine();
             } else {
                 switch (inputs[0]) {
