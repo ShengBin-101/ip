@@ -11,7 +11,6 @@ public class Hugo {
     public static void main(String[] args) {
         displayWelcomeMessage();
         askInput();
-
     }
 
     public static void askInput() {
@@ -21,69 +20,90 @@ public class Hugo {
         while (isAskingInput) {
             userInputLine = scanner.nextLine();
             String[] inputs = userInputLine.split(" ");
-            switch (inputs[0]) {
-            case "list":
-                int count = 0;
+            if (inputs[0].equals("")) {
+                // Handle empty input
                 printLine();
-                System.out.print("Here are the tasks in your list:".indent(NORMAL_INDENT));
-                for (Task task : tasks) {
-                    String outputLine = (++count + ". [" + task.getStatusIcon() + "] " + task.getDescription());
-                    System.out.print(outputLine.indent(NORMAL_INDENT));
-                }
+                System.out.print("Please enter a task name to add".indent(NORMAL_INDENT));
                 printLine();
-                break;
-            case "mark":
-                if (inputs.length > 1) {
-                    int taskId = Integer.parseInt(inputs[1]) - 1;
-                    if (taskId < 0 || taskId >= tasks.size()) {
-                        printLine();
-                        System.out.print("Invalid task id.".indent(NORMAL_INDENT));
-                        printLine();
-                    } else {
-                        tasks.get(taskId).markAsDone();
-                        String markMessage = "Nice! I've marked this task as done:";
-                        String outputLine = "[" + tasks.get(taskId).getStatusIcon() + "] " + tasks.get(taskId).getDescription();
-                        printLine();
-                        System.out.print(markMessage.indent(NORMAL_INDENT));
-                        System.out.print(outputLine.indent(MAJOR_INDENT));
-                        printLine();
-                    }
-                } else {
-                    printLine();
-                    System.out.print("Please enter task number to mark!".indent(NORMAL_INDENT));
-                    printLine();
+            } else {
+                switch (inputs[0]) {
+                case "list":
+                    listTasks();
+                    break;
+                case "mark":
+                    markTaskAsDone(inputs);
+                    break;
+                case "unmark":
+                    markTaskAsUndone(inputs);
+                    break;
+                case "bye":
+                    displayExitMessage();
+                    isAskingInput = false;
+                    break;
+                default:
+                    addTask(userInputLine);
+                    break;
                 }
-                break;
-            case "unmark":
-                if (inputs.length > 1) {
-                    int taskId = Integer.parseInt(inputs[1]) - 1;
-                    if (taskId < 0 || taskId >= tasks.size()) {
-                        printLine();
-                        System.out.print("Invalid task id.".indent(NORMAL_INDENT));
-                        printLine();
-                    } else {
-                        tasks.get(taskId).markAsUndone();
-                        String unmarkMessage = "OK, I've marked this task as not done yet:";
-                        String outputLine = "[" + tasks.get(taskId).getStatusIcon() + "] " + tasks.get(taskId).getDescription();
-                        printLine();
-                        System.out.print(unmarkMessage.indent(NORMAL_INDENT));
-                        System.out.print(outputLine.indent(MAJOR_INDENT));
-                        printLine();
-                    }
-                } else {
-                    printLine();
-                    System.out.print("Please enter task number to unmark!".indent(NORMAL_INDENT));
-                    printLine();
-                }
-                break;
-            case "bye":
-                displayExitMessage();
-                isAskingInput = false;
-                break;
-            default:
-                addTask(userInputLine);
-                break;
             }
+        }
+    }
+
+    public static void listTasks() {
+        int count = 0;
+        printLine();
+        System.out.print("Here are the tasks in your list:".indent(NORMAL_INDENT));
+        for (Task task : tasks) {
+            String outputLine = (++count + ". [" + task.getStatusIcon() + "] " + task.getDescription());
+            System.out.print(outputLine.indent(NORMAL_INDENT));
+        }
+        printLine();
+    }
+
+    public static void markTaskAsDone(String[] inputs) {
+        if (inputs.length > 1) {
+            int taskId = Integer.parseInt(inputs[1]) - 1;
+            if (taskId < 0 || taskId >= tasks.size()) {
+                printLine();
+                System.out.print("Invalid task id.".indent(NORMAL_INDENT));
+                printLine();
+            } else {
+                tasks.get(taskId).markAsDone();
+                String markMessage = "Nice! I've marked this task as done:";
+                String outputLine = "[" + tasks.get(taskId).getStatusIcon()
+                        + "] " + tasks.get(taskId).getDescription();
+                printLine();
+                System.out.print(markMessage.indent(NORMAL_INDENT));
+                System.out.print(outputLine.indent(MAJOR_INDENT));
+                printLine();
+            }
+        } else {
+            printLine();
+            System.out.print("Please enter task number to mark!".indent(NORMAL_INDENT));
+            printLine();
+        }
+    }
+
+    public static void markTaskAsUndone(String[] inputs) {
+        if (inputs.length > 1) {
+            int taskId = Integer.parseInt(inputs[1]) - 1;
+            if (taskId < 0 || taskId >= tasks.size()) {
+                printLine();
+                System.out.print("Invalid task id.".indent(NORMAL_INDENT));
+                printLine();
+            } else {
+                tasks.get(taskId).markAsUndone();
+                String unmarkMessage = "OK, I've marked this task as not done yet:";
+                String outputLine = "[" + tasks.get(taskId).getStatusIcon()
+                        + "] " + tasks.get(taskId).getDescription();
+                printLine();
+                System.out.print(unmarkMessage.indent(NORMAL_INDENT));
+                System.out.print(outputLine.indent(MAJOR_INDENT));
+                printLine();
+            }
+        } else {
+            printLine();
+            System.out.print("Please enter task number to unmark!".indent(NORMAL_INDENT));
+            printLine();
         }
     }
 
