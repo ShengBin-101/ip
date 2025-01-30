@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Hugo {
 
-    private static ArrayList<String> inputs = new ArrayList<>();
+    private static ArrayList<Task> tasks = new ArrayList<>();
     private static final int MAJOR_INDENT_SIZE = 5;
     private static final int MINOR_INDENT_SIZE = 4;
 
@@ -23,8 +23,10 @@ public class Hugo {
             case "list":
                 int count = 0;
                 printLine();
-                for (String input : inputs) {
-                    System.out.print((++count + ". " + input).indent(MAJOR_INDENT_SIZE));
+                System.out.print("Here are the tasks in your list:".indent(MAJOR_INDENT_SIZE));
+                for (Task task : tasks) {
+                    String outputLine = (++count + ". [" + task.getStatusIcon() + "] " + task.getDescription());
+                    System.out.print(outputLine.indent(MAJOR_INDENT_SIZE));
                 }
                 printLine();
                 break;
@@ -33,14 +35,15 @@ public class Hugo {
                 isAskingInput = false;
                 break;
             default:
-                addUserInput(userInputLine);
+                addTask(userInputLine);
                 break;
             }
         }
     }
 
-    public static void addUserInput(String userInput) {
-        inputs.add(userInput);
+    public static void addTask(String userInput) {
+        Task newTask = new Task(userInput);
+        tasks.add(newTask);
         String echoMessage = "added: "
                 + userInput + "\n";
         printLine();
