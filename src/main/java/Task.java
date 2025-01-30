@@ -15,4 +15,12 @@ public class Task {
     public String getDescription() {
         return description;
     }
+
+    public void markAsDone() {
+        isDone = true;
+    }
+
+    public void markAsUndone() {
+        isDone = false;
+    }
 }

@@ -4,8 +4,9 @@ import java.util.Scanner;
 public class Hugo {
 
     private static ArrayList<Task> tasks = new ArrayList<>();
-    private static final int MAJOR_INDENT_SIZE = 5;
-    private static final int MINOR_INDENT_SIZE = 4;
+    private static final int MAJOR_INDENT = 7;
+    private static final int NORMAL_INDENT = 5;
+    private static final int MINOR_INDENT = 4;
 
     public static void main(String[] args) {
         displayWelcomeMessage();
@@ -19,16 +20,65 @@ public class Hugo {
         Scanner scanner = new Scanner(System.in);
         while (isAskingInput) {
             userInputLine = scanner.nextLine();
-            switch (userInputLine) {
+            String[] inputs = userInputLine.split(" ");
+            switch (inputs[0]) {
             case "list":
                 int count = 0;
                 printLine();
-                System.out.print("Here are the tasks in your list:".indent(MAJOR_INDENT_SIZE));
+                System.out.print("Here are the tasks in your list:".indent(NORMAL_INDENT));
                 for (Task task : tasks) {
                     String outputLine = (++count + ". [" + task.getStatusIcon() + "] " + task.getDescription());
-                    System.out.print(outputLine.indent(MAJOR_INDENT_SIZE));
+                    System.out.print(outputLine.indent(NORMAL_INDENT));
                 }
                 printLine();
+                break;
+            case "mark":
+                if (inputs.length > 1 ) {
+                    int taskId = Integer.parseInt(inputs[1]) - 1;
+                    if (taskId < 0 || taskId >= tasks.size()) {
+                        printLine();
+                        System.out.print("Invalid task id.".indent(NORMAL_INDENT));
+                        printLine();
+                    }
+                    else {
+                        tasks.get(taskId).markAsDone();
+                        String markMessage = "Nice! I've marked this task as done:";
+                        String outputLine = "[" + tasks.get(taskId).getStatusIcon() + "] " + tasks.get(taskId).getDescription();
+                        printLine();
+                        System.out.print(markMessage.indent(NORMAL_INDENT));
+                        System.out.print(outputLine.indent(MAJOR_INDENT));
+                        printLine();
+                    }
+                }
+                else{
+                    printLine();
+                    System.out.print("Please enter task number to mark!".indent(NORMAL_INDENT));
+                    printLine();
+                }
+                break;
+            case "unmark":
+                if (inputs.length > 1) {
+                    int taskId = Integer.parseInt(inputs[1]) - 1;
+                    if (taskId < 0 || taskId >= tasks.size()) {
+                        printLine();
+                        System.out.print("Invalid task id.".indent(NORMAL_INDENT));
+                        printLine();
+                    }
+                    else {
+                        tasks.get(taskId).markAsUndone();
+                        String unmarkMessage = "OK, I've marked this task as not done yet:";
+                        String outputLine = "[" + tasks.get(taskId).getStatusIcon() + "] " + tasks.get(taskId).getDescription();
+                        printLine();
+                        System.out.print(unmarkMessage.indent(NORMAL_INDENT));
+                        System.out.print(outputLine.indent(MAJOR_INDENT));
+                        printLine();
+                    }
+                }
+                else {
+                    printLine();
+                    System.out.print("Please enter task number to unmark!".indent(NORMAL_INDENT));
+                    printLine();
+                }
                 break;
             case "bye":
                 displayExitMessage();
@@ -47,7 +97,7 @@ public class Hugo {
         String echoMessage = "added: "
                 + userInput + "\n";
         printLine();
-        System.out.print(echoMessage.indent(MAJOR_INDENT_SIZE));
+        System.out.print(echoMessage.indent(NORMAL_INDENT));
         printLine();
     }
 
@@ -55,18 +105,18 @@ public class Hugo {
         String welcomeMessage = "Hello! I'm Hugo\n"
                 + "What can I do for you?\n";
         printLine();
-        System.out.print(welcomeMessage.indent(MAJOR_INDENT_SIZE));
+        System.out.print(welcomeMessage.indent(NORMAL_INDENT));
         printLine();
     }
 
     public static void displayExitMessage() {
         String exitMessage = "Bye. Hope to see you again soon!\n";
         printLine();
-        System.out.print(exitMessage.indent(MAJOR_INDENT_SIZE));
+        System.out.print(exitMessage.indent(NORMAL_INDENT));
         printLine();
     }
 
     public static void printLine() {
-        System.out.print("____________________________________________________________".indent(MINOR_INDENT_SIZE));
+        System.out.print("____________________________________________________________".indent(MINOR_INDENT));
     }
 }
