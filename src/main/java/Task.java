@@ -23,4 +23,8 @@ public class Task {
     public void markAsUndone() {
         isDone = false;
     }
+
+    public boolean getIsDone() {
+        return isDone;
+    }
 }

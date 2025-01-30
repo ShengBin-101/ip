@@ -67,6 +67,12 @@ public class Hugo {
                 System.out.print("Invalid task id.".indent(NORMAL_INDENT));
                 printLine();
             } else {
+                if (tasks.get(taskId).getIsDone()) {
+                    printLine();
+                    System.out.print("Task is already marked.".indent(NORMAL_INDENT));
+                    printLine();
+                    return;
+                }
                 tasks.get(taskId).markAsDone();
                 String markMessage = "Nice! I've marked this task as done:";
                 String outputLine = "[" + tasks.get(taskId).getStatusIcon()
@@ -91,6 +97,12 @@ public class Hugo {
                 System.out.print("Invalid task id.".indent(NORMAL_INDENT));
                 printLine();
             } else {
+                if (!tasks.get(taskId).getIsDone()) {
+                    printLine();
+                    System.out.print("Task is already unmarked.".indent(MAJOR_INDENT));
+                    printLine();
+                    return;
+                }
                 tasks.get(taskId).markAsUndone();
                 String unmarkMessage = "OK, I've marked this task as not done yet:";
                 String outputLine = "[" + tasks.get(taskId).getStatusIcon()
