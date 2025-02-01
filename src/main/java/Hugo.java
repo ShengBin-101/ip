@@ -4,9 +4,6 @@ import java.util.Scanner;
 public class Hugo {
 
     private static ArrayList<Task> tasks = new ArrayList<>();
-    private static final int MAJOR_INDENT = 7;
-    private static final int NORMAL_INDENT = 5;
-    private static final int MINOR_INDENT = 4;
 
     public static void main(String[] args) {
         displayWelcomeMessage();
@@ -22,9 +19,9 @@ public class Hugo {
             String[] inputs = userInputLine.split(" ");
             if (inputs[0].equals("")) {
                 // Handle empty input
-                printLine();
-                System.out.print("Please enter a command or task name to add".indent(NORMAL_INDENT));
-                printLine();
+                Formatter.printLine();
+                Formatter.printMessage("Please enter a command or task name to add");
+                Formatter.printLine();
             } else {
                 switch (inputs[0]) {
                 case "list":
@@ -49,44 +46,31 @@ public class Hugo {
     }
 
     public static void listTasks() {
-        int count = 0;
-        printLine();
-        System.out.print("Here are the tasks in your list:".indent(NORMAL_INDENT));
-        for (Task task : tasks) {
-            String outputLine = (++count + ". [" + task.getStatusIcon() + "] " + task.getDescription());
-            System.out.print(outputLine.indent(NORMAL_INDENT));
-        }
-        printLine();
+        Formatter.printTaskList(tasks);
     }
 
     public static void markTaskAsDone(String[] inputs) {
         if (inputs.length > 1) {
             int taskId = Integer.parseInt(inputs[1]) - 1;
             if (taskId < 0 || taskId >= tasks.size()) {
-                printLine();
-                System.out.print("Invalid task id.".indent(NORMAL_INDENT));
-                printLine();
+                Formatter.printLine();
+                Formatter.printMessage("Invalid task id.");
+                Formatter.printLine();
             } else {
                 if (tasks.get(taskId).getIsDone()) {
-                    printLine();
-                    System.out.print("Task is already marked.".indent(NORMAL_INDENT));
-                    printLine();
+                    Formatter.printLine();
+                    Formatter.printMessage("Task is already marked.");
+                    Formatter.printLine();
                     return;
                 }
                 tasks.get(taskId).markAsDone();
-                String markMessage = "Nice! I've marked this task as done:";
-                String outputLine = "[" + tasks.get(taskId).getStatusIcon()
-                        + "] " + tasks.get(taskId).getDescription();
-                printLine();
-                System.out.print(markMessage.indent(NORMAL_INDENT));
-                System.out.print(outputLine.indent(MAJOR_INDENT));
-                System.out.print(("Now you have " + tasks.size() + " tasks in the list.").indent(NORMAL_INDENT));
-                printLine();
+                Formatter.printTaskStatusChange("Nice! I've marked this task as done:",
+                        tasks.get(taskId), tasks.size());
             }
         } else {
-            printLine();
-            System.out.print("Please enter task number to mark!".indent(NORMAL_INDENT));
-            printLine();
+            Formatter.printLine();
+            Formatter.printMessage("Please enter task number to mark!");
+            Formatter.printLine();
         }
     }
 
@@ -94,58 +78,46 @@ public class Hugo {
         if (inputs.length > 1) {
             int taskId = Integer.parseInt(inputs[1]) - 1;
             if (taskId < 0 || taskId >= tasks.size()) {
-                printLine();
-                System.out.print("Invalid task id.".indent(NORMAL_INDENT));
-                printLine();
+                Formatter.printLine();
+                Formatter.printMessage("Invalid task id.");
+                Formatter.printLine();
             } else {
                 if (!tasks.get(taskId).getIsDone()) {
-                    printLine();
-                    System.out.print("Task is already unmarked.".indent(MAJOR_INDENT));
-                    printLine();
+                    Formatter.printLine();
+                    Formatter.printMessage("Task is already unmarked.");
+                    Formatter.printLine();
                     return;
                 }
                 tasks.get(taskId).markAsUndone();
-                String unmarkMessage = "OK, I've marked this task as not done yet:";
-                String outputLine = "[" + tasks.get(taskId).getStatusIcon()
-                        + "] " + tasks.get(taskId).getDescription();
-                printLine();
-                System.out.print(unmarkMessage.indent(NORMAL_INDENT));
-                System.out.print(outputLine.indent(MAJOR_INDENT));
-                System.out.print(("Now you have " + tasks.size() + " tasks in the list.").indent(NORMAL_INDENT));
-                printLine();
+                Formatter.printTaskStatusChange("OK, I've marked this task as not done yet:",
+                        tasks.get(taskId), tasks.size());
             }
         } else {
-            printLine();
-            System.out.print("Please enter task number to unmark!".indent(NORMAL_INDENT));
-            printLine();
+            Formatter.printLine();
+            Formatter.printMessage("Please enter task number to unmark!");
+            Formatter.printLine();
         }
     }
+
 
     public static void addTask(String userInput) {
         Task newTask = new Task(userInput);
         tasks.add(newTask);
-        String echoMessage = "added: " + userInput + "\n";
-        printLine();
-        System.out.print(echoMessage.indent(NORMAL_INDENT));
-        System.out.print(("Now you have " + tasks.size() + " tasks in the list.").indent(NORMAL_INDENT));
-        printLine();
+        Formatter.printLine();
+        Formatter.printMessage("added: " + userInput);
+        Formatter.printMessage("Now you have " + tasks.size() + " tasks in the list.");
+        Formatter.printLine();
     }
 
     public static void displayWelcomeMessage() {
-        String welcomeMessage = "Hello! I'm Hugo\n" + "What can I do for you?\n";
-        printLine();
-        System.out.print(welcomeMessage.indent(NORMAL_INDENT));
-        printLine();
+        Formatter.printLine();
+        Formatter.printMessage("Hello! I'm Hugo\nWhat can I do for you?");
+        Formatter.printLine();
     }
 
     public static void displayExitMessage() {
-        String exitMessage = "Bye. Hope to see you again soon!\n";
-        printLine();
-        System.out.print(exitMessage.indent(NORMAL_INDENT));
-        printLine();
-    }
-
-    public static void printLine() {
-        System.out.print("____________________________________________________________".indent(MINOR_INDENT));
+        Formatter.printLine();
+        Formatter.printMessage("Bye. Hope to see you again soon!");
+        Formatter.printLine();
     }
 }
