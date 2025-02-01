@@ -80,6 +80,7 @@ public class Hugo {
                 printLine();
                 System.out.print(markMessage.indent(NORMAL_INDENT));
                 System.out.print(outputLine.indent(MAJOR_INDENT));
+                System.out.print(("Now you have " + tasks.size() + " tasks in the list.").indent(NORMAL_INDENT));
                 printLine();
             }
         } else {
@@ -110,6 +111,7 @@ public class Hugo {
                 printLine();
                 System.out.print(unmarkMessage.indent(NORMAL_INDENT));
                 System.out.print(outputLine.indent(MAJOR_INDENT));
+                System.out.print(("Now you have " + tasks.size() + " tasks in the list.").indent(NORMAL_INDENT));
                 printLine();
             }
         } else {
@@ -125,6 +127,7 @@ public class Hugo {
         String echoMessage = "added: " + userInput + "\n";
         printLine();
         System.out.print(echoMessage.indent(NORMAL_INDENT));
+        System.out.print(("Now you have " + tasks.size() + " tasks in the list.").indent(NORMAL_INDENT));
         printLine();
     }
 
