@@ -13,7 +13,7 @@ public class Deadline extends Task {
 
     @Override
     public String getDescription() {
-        return (super.getDescription() + " (by: " + dueDate + ")");
+        return (super.getDescription() + " (by: " + getDueDate() + ")");
     }
 
     public String getDueDate() {

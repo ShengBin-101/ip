@@ -29,7 +29,7 @@ public class Hugo {
                     addDeadline(inputs);
                     break;
                 case "todo":
-                    addToDo(userInputLine);
+                    addToDo(inputs);
                     break;
                 case "event":
                     addEvent(inputs);
@@ -49,7 +49,7 @@ public class Hugo {
                     break;
                 default:
 //                    addTask(userInputLine);
-                    addToDo(userInputLine);
+                    addToDo(inputs);
                     break;
                 }
             }
@@ -148,8 +148,19 @@ public class Hugo {
         Formatter.printTaskStatusChange("Got it. I've added this task:",deadlineTask,tasks.size());
     }
 
-    public static void addToDo(String description) {
-        Todo todoTask = new Todo(description);
+    public static void addToDo(String[] inputs) {
+        // Extract task description
+        String taskDescription = "";
+        if (inputs[0].equals("todo")) {
+            if (inputs.length > 1) {
+                taskDescription = String.join(" ", Arrays.copyOfRange(inputs, 1, inputs.length));
+            }
+        }
+        else {
+            taskDescription = String.join(" ", Arrays.copyOfRange(inputs, 0, inputs.length));
+        }
+
+        Todo todoTask = new Todo(taskDescription);
         tasks.add(todoTask);
         Formatter.printTaskStatusChange("Got it. I've added this task:", todoTask, tasks.size());
     }
