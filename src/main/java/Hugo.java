@@ -110,8 +110,8 @@ public class Hugo {
     }
 
     public static void addDeadline(String[] inputs) {
-        String taskDescription = "";
-        String dueDate = "";
+        String taskDescription;
+        String dueDate;
         int byIndex = -1;
 
         // Find the index of "/by"
@@ -154,9 +154,9 @@ public class Hugo {
     }
 
     public static void addEvent(String[] inputs) {
-        String taskDescription = "";
-        String from = "";
-        String to = "";
+        String taskDescription;
+        String from;
+        String to;
         int fromIndex = -1;
         int toIndex = -1;
 
