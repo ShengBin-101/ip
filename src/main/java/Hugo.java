@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Hugo {
@@ -24,6 +25,15 @@ public class Hugo {
                 Formatter.printLine();
             } else {
                 switch (inputs[0]) {
+                case "deadline":
+                    addDeadline(inputs);
+                    break;
+                case "todo":
+                    addToDo(userInputLine);
+                    break;
+                case "event":
+                    addEvent(inputs);
+                    break;
                 case "list":
                     listTasks();
                     break;
@@ -38,7 +48,8 @@ public class Hugo {
                     isAskingInput = false;
                     break;
                 default:
-                    addTask(userInputLine);
+//                    addTask(userInputLine);
+                    addToDo(userInputLine);
                     break;
                 }
             }
@@ -99,7 +110,7 @@ public class Hugo {
         }
     }
 
-
+    // Adding task of no specific type
     public static void addTask(String userInput) {
         Task newTask = new Task(userInput);
         tasks.add(newTask);
@@ -107,6 +118,51 @@ public class Hugo {
         Formatter.printMessage("added: " + userInput);
         Formatter.printMessage("Now you have " + tasks.size() + " tasks in the list.");
         Formatter.printLine();
+    }
+
+    public static void addDeadline(String[] inputs) {
+        // TODO: extract description
+        // TODO: extract string after /by
+        // TODO: Create Deadline item
+        String description = "";
+        String dueDate = "";
+        int byIndex = -1;
+
+        // Find the index of "/by"
+        for (int i = 0; i < inputs.length; i++) {
+            if (inputs[i].equals("/by")) {
+                byIndex = i;
+                break;
+            }
+        }
+
+        // Extract task description (between "deadline" and "/by")
+        String taskDescription = (byIndex > 1)
+                ? String.join(" ", Arrays.copyOfRange(inputs, 1, byIndex))
+                : "";
+
+        // Extract deadline (words after "/by")
+        String deadline = (byIndex != -1 && byIndex < inputs.length - 1)
+                ? String.join(" ", Arrays.copyOfRange(inputs, byIndex+1, inputs.length))
+                : "";
+
+        Deadline deadlineTask = new Deadline(taskDescription, deadline);
+        tasks.add(deadlineTask);
+        Formatter.printTaskStatusChange("Got it. I've added this task:",deadlineTask,tasks.size());
+    }
+
+    public static void addToDo(String description) {
+        // TODO: extract description
+        // TODO: Create Todo item
+        Todo todoTask = new Todo(description);
+        tasks.add(todoTask);
+        Formatter.printTaskStatusChange("Got it. I've added this task:", todoTask, tasks.size());
+    }
+
+    public static void addEvent(String[] inputs) {
+        // TODO: extract description
+        // TODO: extract string between /from and /to and string after /to
+        // TODO: Create Event item
     }
 
     public static void displayWelcomeMessage() {

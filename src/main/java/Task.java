@@ -3,9 +3,18 @@ public class Task {
     protected String description;
     protected boolean isDone;
 
+    public Task() {
+        this("no description given");
+    }
+
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + this.description;
     }
 
     public String getStatusIcon() {
@@ -27,4 +36,5 @@ public class Task {
     public boolean getIsDone() {
         return isDone;
     }
+
 }
