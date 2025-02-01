@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Formatter {
 
     private static final int MAJOR_INDENT = 7;
@@ -16,13 +18,12 @@ public class Formatter {
         System.out.print(message.indent(MAJOR_INDENT));
     }
 
-    public static void printTaskList(java.util.List<Task> tasks) {
+    public static void printTaskList(ArrayList<Task> tasks) {
         printLine();
         printMessage("Here are the tasks in your list:");
         int count = 0;
         for (Task task : tasks) {
-            String outputLine = (++count + ". [" + task.getStatusIcon() + "] " + task.getDescription());
-            printMessage(outputLine);
+            printMessage(++count + "." + task.toString());
         }
         printLine();
     }
@@ -30,7 +31,7 @@ public class Formatter {
     public static void printTaskStatusChange(String message, Task task, int totalTasks) {
         printLine();
         printMessage(message);
-        printMajorMessage("[" + task.getStatusIcon() + "] " + task.getDescription());
+        printMajorMessage(task.toString());
         printMessage("Now you have " + totalTasks + " tasks in the list.");
         printLine();
     }
