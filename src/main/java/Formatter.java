@@ -10,8 +10,15 @@ public class Formatter {
         System.out.print("____________________________________________________________".indent(MINOR_INDENT));
     }
 
-    public static void printMessage(String message) {
-        System.out.print(message.indent(NORMAL_INDENT));
+    public static void printMessage(String message, boolean hasLines) {
+        if (hasLines) {
+            printLine();
+            System.out.print(message.indent(NORMAL_INDENT));
+            printLine();
+        }
+        else {
+            System.out.print(message.indent(NORMAL_INDENT));
+        }
     }
 
     public static void printMajorMessage(String message) {
@@ -20,19 +27,19 @@ public class Formatter {
 
     public static void printTaskList(ArrayList<Task> tasks) {
         printLine();
-        printMessage("Here are the tasks in your list:");
+        printMessage("Here are the tasks in your list:", false);
         int count = 0;
         for (Task task : tasks) {
-            printMessage(++count + "." + task.toString());
+            printMessage(++count + "." + task.toString(), false);
         }
         printLine();
     }
 
     public static void printTaskStatusChange(String message, Task task, int totalTasks) {
         printLine();
-        printMessage(message);
+        printMessage(message, false);
         printMajorMessage(task.toString());
-        printMessage("Now you have " + totalTasks + " tasks in the list.");
+        printMessage("Now you have " + totalTasks + " tasks in the list.", false);
         printLine();
     }
 }
