@@ -1,3 +1,5 @@
+package hugo.tasks;
+
 public class Deadline extends Task {
     private String dueDate;
 
