@@ -1,3 +1,7 @@
+package hugo.ui;
+
+import hugo.tasks.Task;
+
 import java.util.ArrayList;
 
 public class Formatter {

@@ -1,3 +1,5 @@
+package hugo;
+
 public class InputParser {
 
     /**

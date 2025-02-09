@@ -1,3 +1,12 @@
+package hugo;
+
+import hugo.exceptions.*;
+import hugo.tasks.Deadline;
+import hugo.tasks.Event;
+import hugo.tasks.Task;
+import hugo.tasks.Todo;
+import hugo.ui.Formatter;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
