@@ -14,9 +14,14 @@ public class TaskManager {
         String userInputLine;
         Scanner scanner = new Scanner(System.in);
         while (isAskingInput) {
+
+            if (!scanner.hasNextLine()) {  // Prevents NoSuchElementException
+                break;
+            }
+
             userInputLine = scanner.nextLine();
             if (userInputLine.isEmpty()) {
-                Formatter.printMessage("Please enter a command or task name to add", true);
+                Formatter.printBorderedMessage("Please enter a command or task name to add");
             } else {
                 String[] inputs = userInputLine.split(" ", 2);
                 switch (inputs[0]) {
@@ -43,7 +48,7 @@ public class TaskManager {
                     isAskingInput = false;
                     break;
                 default:
-                    Formatter.printMessage("Unknown command.", true);
+                    Formatter.printBorderedMessage("Unknown command.");
                     break;
                 }
             }
@@ -52,14 +57,14 @@ public class TaskManager {
 
     private void addDeadline(String[] inputs) {
         if (inputs.length < 2) {
-            Formatter.printMessage("Please provide a deadline " +
-                    "description and due date.", true);
+            Formatter.printBorderedMessage("Please provide a deadline " +
+                    "description and due date.");
             return;
         }
         String[] deadlineArgs = InputParser.parseDeadlineArgs(inputs[1]);
         if (deadlineArgs == null) {
-            Formatter.printMessage("Invalid deadline format. " +
-                    "Use: deadline <description> /by <due date>", true);
+            Formatter.printBorderedMessage("Invalid deadline format. " +
+                    "Use: deadline <description> /by <due date>");
             return;
         }
         Deadline deadlineTask = new Deadline(deadlineArgs[0], deadlineArgs[1]);
@@ -69,7 +74,7 @@ public class TaskManager {
 
     private void addToDo(String[] inputs) {
         if (inputs.length < 2) {
-            Formatter.printMessage("Please provide a todo description.", true);
+            Formatter.printBorderedMessage("Please provide a todo description.");
             return;
         }
         Todo todoTask = new Todo(inputs[1].trim());
@@ -79,14 +84,14 @@ public class TaskManager {
 
     private void addEvent(String[] inputs) {
         if (inputs.length < 2) {
-            Formatter.printMessage("Please provide an event description, " +
-                    "start time, and end time.",true);
+            Formatter.printBorderedMessage("Please provide an event description, " +
+                    "start time, and end time.");
             return;
         }
         String[] eventArgs = InputParser.parseEventArgs(inputs[1]);
         if (eventArgs == null) {
-            Formatter.printMessage("Invalid event format. Use: event <description> " +
-                    "/from <start time> /to <end time>", true);
+            Formatter.printBorderedMessage("Invalid event format. Use: event <description> " +
+                    "/from <start time> /to <end time>");
             return;
         }
         Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
@@ -100,43 +105,43 @@ public class TaskManager {
 
     private void markTaskAsDone(String[] inputs) {
         if (inputs.length < 2) {
-            Formatter.printMessage("Please provide a task number to mark as done.",true);
+            Formatter.printBorderedMessage("Please provide a task number to mark as done.");
             return;
         }
         int taskId = Integer.parseInt(inputs[1]) - 1;
         if (taskId < 0 || taskId >= tasks.size()) {
-            Formatter.printMessage("Invalid task id.",true);
+            Formatter.printBorderedMessage("Invalid task id.");
             return;
         }
         if (tasks.get(taskId).getIsDone()) {
-            Formatter.printMessage("Task is already marked.",true);
+            Formatter.printBorderedMessage("Task is already marked.");
             return;
         }
-        tasks.get(taskId).markAsDone();
+        tasks.get(taskId).setIsDone(true);
         Formatter.printTaskStatusChange("Nice! I've marked this task as done:",
                 tasks.get(taskId), tasks.size());
     }
 
     private void markTaskAsUndone(String[] inputs) {
         if (inputs.length < 2) {
-            Formatter.printMessage("Please provide a task number to unmark.", true);
+            Formatter.printBorderedMessage("Please provide a task number to unmark.");
             return;
         }
         int taskId = Integer.parseInt(inputs[1]) - 1;
         if (taskId < 0 || taskId >= tasks.size()) {
-            Formatter.printMessage("Invalid task id.", true);
+            Formatter.printBorderedMessage("Invalid task id.");
             return;
         }
         if (!tasks.get(taskId).getIsDone()) {
-            Formatter.printMessage("Task is already unmarked.", true);
+            Formatter.printBorderedMessage("Task is already unmarked.");
             return;
         }
-        tasks.get(taskId).markAsUndone();
+        tasks.get(taskId).setIsDone(false);
         Formatter.printTaskStatusChange("OK, I've marked this task as not done yet:",
                 tasks.get(taskId), tasks.size());
     }
 
     private void displayExitMessage() {
-        Formatter.printMessage("Bye. Hope to see you again soon!", true);
+        Formatter.printBorderedMessage("Bye. Hope to see you again soon!");
     }
 }

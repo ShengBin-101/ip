@@ -21,12 +21,8 @@ public class Task {
         return description;
     }
 
-    public void markAsDone() {
-        isDone = true;
-    }
-
-    public void markAsUndone() {
-        isDone = false;
+    public void setIsDone(boolean isDone) {
+        this.isDone = isDone;
     }
 
     public boolean getIsDone() {

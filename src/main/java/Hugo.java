@@ -7,6 +7,6 @@ public class Hugo {
     }
 
     public static void displayWelcomeMessage() {
-        Formatter.printMessage("Hello! I'm Hugo\nWhat can I do for you?", true);
+        Formatter.printBorderedMessage("Hello! I'm Hugo\nWhat can I do for you?");
     }
 }
