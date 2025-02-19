@@ -8,6 +8,13 @@ public class Deadline extends Task {
         this.setDueDate(dueDate);
     }
 
+    // Called when loading data from data file
+    public Deadline(String description, String dueDate, boolean isDone) {
+        super(description);
+        this.setDueDate(dueDate);
+        this.setIsDone(isDone);
+    }
+
     @Override
     public String toString() {
         return "[D]" + "[" + getStatusIcon() + "] " + getDescription();
@@ -24,5 +31,11 @@ public class Deadline extends Task {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    @Override
+    public String toFileString() {
+        // Format: D | isDone | description | by
+        return "D | " + (this.getIsDone() ? "1" : "0") + " | " + this.description + " | " + this.getDueDate();
     }
 }

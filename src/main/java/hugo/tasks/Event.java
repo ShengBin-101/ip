@@ -10,6 +10,14 @@ public class Event extends Task {
         this.setTo(to);
     }
 
+    // Called when loading data from data file
+    public Event(String description, String from, String to, boolean isDone) {
+        super(description);
+        this.setFrom(from);
+        this.setTo(to);
+        this.setIsDone(isDone);
+    }
+
     @Override
     public String toString() {
         return "[E]" + "[" + getStatusIcon() + "] " + this.getDescription() +
@@ -31,4 +39,11 @@ public class Event extends Task {
     public void setTo(String to) {
         this.to = to;
     }
+
+    @Override
+    public String toFileString() {
+        // Format: E | isDone | description | from | to
+        return "E | " + (this.getIsDone() ? "1" : "0") + " | " + this.description + " | " + this.from + " | " + this.to;
+    }
+
 }
