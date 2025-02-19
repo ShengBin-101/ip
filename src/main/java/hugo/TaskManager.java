@@ -35,6 +35,9 @@ public class TaskManager {
                 String[] inputs = userInputLine.split(" ", 2);
                 try {
                     switch (inputs[0]) {
+                    case "delete":
+                        deleteTask(inputs);
+                        break;
                     case "deadline":
                         addDeadline(inputs);
                         break;
@@ -64,6 +67,23 @@ public class TaskManager {
                     Formatter.printBorderedMessage(e.getMessage());
                 }
             }
+        }
+    }
+
+    private void deleteTask(String[] inputs) {
+        try {
+            if (inputs.length < 2) {
+                throw new TaskInputException("Please provide a task number to delete.");
+            }
+            int taskId = Integer.parseInt(inputs[1]) - 1;
+            if (taskId < 0 || taskId >= tasks.size()) {
+                throw new TaskNotFoundException("Invalid task id.");
+            }
+            Task deletedTask = tasks.remove(taskId);
+            Formatter.printTaskStatusChange("Noted. I've removed this task::",
+                    deletedTask, tasks.size());
+        } catch (TaskInputException | TaskNotFoundException e) {
+            Formatter.printBorderedMessage(e.getMessage());
         }
     }
 
