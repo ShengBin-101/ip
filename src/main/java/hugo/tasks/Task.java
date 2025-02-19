@@ -29,4 +29,6 @@ public abstract class Task {
         return isDone;
     }
 
+    public abstract String toFileString();
+
 }

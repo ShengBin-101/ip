@@ -13,15 +13,22 @@ import java.util.Scanner;
 public class TaskManager {
 
     private ArrayList<Task> tasks;
+    private Storage storage;
 
     public TaskManager() {
         this.tasks = new ArrayList<>();
+        this.storage = new Storage();
+        this.tasks = storage.loadTasks();
+        if ( tasks.size() > 0 ) {
+            listTasks();
+        }
     }
 
     public void askInput() {
         boolean isAskingInput = true;
         String userInputLine;
         Scanner scanner = new Scanner(System.in);
+
         while (isAskingInput) {
 
             if (!scanner.hasNextLine()) {  // Prevents NoSuchElementException
@@ -63,6 +70,7 @@ public class TaskManager {
                     default:
                         throw new CommandInputException("Unknown command.");
                     }
+                    storage.saveTasks(tasks); // Save tasks after change in tasks
                 } catch (CommandInputException e) {
                     Formatter.printBorderedMessage(e.getMessage());
                 }
