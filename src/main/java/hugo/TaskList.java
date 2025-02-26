@@ -59,6 +59,16 @@ public class TaskList {
         Formatter.printTaskList(tasks);
     }
 
+    public void findTasks(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        Formatter.printMatchingTaskList(matchingTasks);
+    }
+
     public ArrayList<Task> getTasks() {
         return new ArrayList<Task>(tasks);  // Returns a defensive copy
     }

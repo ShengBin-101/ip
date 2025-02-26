@@ -65,6 +65,9 @@ public class TaskManager {
                     case "unmark":
                         markTaskAsUndone(inputs);
                         break;
+                    case "find":
+                        findTasks(inputs);
+                        break;
                     case "bye":
                         displayExitMessage();
                         isAskingInput = false;
@@ -164,6 +167,18 @@ public class TaskManager {
             taskList.markTaskAsUndone(taskId);
             storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | TaskNotFoundException | InvalidTaskStateException e) {
+            Formatter.printBorderedMessage(e.getMessage());
+        }
+    }
+
+    private void findTasks(String[] inputs) {
+        try {
+            if (inputs.length < 2 || inputs[1].trim().isEmpty()) {
+                throw new TaskInputException("Please provide a keyword to search for.");
+            }
+            String keyword = inputs[1].trim();
+            taskList.findTasks(keyword);
+        } catch (TaskInputException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
     }
