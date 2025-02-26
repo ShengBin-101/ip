@@ -7,7 +7,7 @@ public class Todo extends Task {
     }
 
     // Called when loading data from data file
-    public Todo(String description, boolean isDone){
+    public Todo(String description, boolean isDone) {
         super(description);
         this.setIsDone(isDone);
     }

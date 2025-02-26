@@ -7,13 +7,27 @@ public class Event extends Task {
     private LocalDateTime from;
     private LocalDateTime to;
 
+    /**
+     * Constructs an Event task with the given description, start time, and end time.
+     *
+     * @param description The description of the event task.
+     * @param from        The start time of the event task.
+     * @param to          The end time of the event task.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.setFrom(from);
         this.setTo(to);
     }
 
-    // Called when loading data from data file
+    /**
+     * Constructs an Event task with the given description, start time, end time, and completion status.
+     *
+     * @param description The description of the event task.
+     * @param from        The start time of the event task.
+     * @param to          The end time of the event task.
+     * @param isDone      The completion status of the event task.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to, boolean isDone) {
         super(description);
         this.setFrom(from);
