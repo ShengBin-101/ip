@@ -57,7 +57,8 @@ public class Storage {
         try {
             // Check if the file exists
             if (!file.exists()) {
-                Formatter.printBorderedMessage("No saved tasks found. Starting with an empty list.\nCreating a new text file at ./data/hugo.txt.");
+                Formatter.printBorderedMessage("No saved tasks found. Starting with an empty list.\n" +
+                        "Creating a new text file at " + FILE_PATH + ".");
                 return tasks;
             }
 
@@ -77,7 +78,7 @@ public class Storage {
         } catch (IOException e) {
             Formatter.printBorderedMessage("Something went wrong while loading tasks: " + e.getMessage());
         }
-        Formatter.printBorderedMessage("Loaded " + tasks.size() + " tasks from ./data/hugo.txt.");
+        Formatter.printBorderedMessage("Loaded " + tasks.size() + " tasks from "+ FILE_PATH + ".");
         return tasks;
     }
 

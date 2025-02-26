@@ -1,6 +1,11 @@
 package hugo;
 
-import hugo.exceptions.*;
+import hugo.exceptions.TaskInputException;
+import hugo.exceptions.EmptyDescriptionException;
+import hugo.exceptions.TaskNotFoundException;
+import hugo.exceptions.InvalidTaskStateException;
+import hugo.exceptions.CommandInputException;
+
 import hugo.tasks.Deadline;
 import hugo.tasks.Event;
 import hugo.tasks.Task;
