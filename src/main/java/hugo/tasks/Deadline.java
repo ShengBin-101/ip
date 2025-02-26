@@ -6,12 +6,24 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task {
     private LocalDateTime dueDateTime;
 
+    /**
+     * Constructs a Deadline task with the given description and due date/time.
+     *
+     * @param description The description of the deadline task.
+     * @param dueDateTime The due date/time of the deadline task.
+     */
     public Deadline(String description, LocalDateTime dueDateTime) {
         super(description);
         this.setDueDateTime(dueDateTime);
     }
 
-    // Called when loading data from data file
+    /**
+     * Constructs a Deadline task with the given description, due date/time, and completion status.
+     *
+     * @param description The description of the deadline task.
+     * @param dueDateTime The due date/time of the deadline task.
+     * @param isDone      The completion status of the deadline task.
+     */
     public Deadline(String description, LocalDateTime dueDateTime, boolean isDone) {
         super(description);
         this.setDueDateTime(dueDateTime);

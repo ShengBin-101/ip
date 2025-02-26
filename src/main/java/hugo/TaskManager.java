@@ -83,6 +83,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Deletes a task from the task list.
+     *
+     * @param inputs The user input split into command and arguments.
+     */
     private void deleteTask(String[] inputs) {
         try {
             if (inputs.length < 2) {
@@ -96,6 +101,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Adds a deadline task to the task list.
+     *
+     * @param inputs The user input split into command and arguments.
+     */
     private void addDeadline(String[] inputs) {
         try {
             if (inputs.length < 2) {
@@ -113,6 +123,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Adds a todo task to the task list.
+     *
+     * @param inputs The user input split into command and arguments.
+     */
     private void addToDo(String[] inputs) {
         try {
             if (inputs.length < 2 || inputs[1].trim().isEmpty()) {
@@ -126,6 +141,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Adds an event task to the task list.
+     *
+     * @param inputs The user input split into command and arguments.
+     */
     private void addEvent(String[] inputs) {
         try {
             if (inputs.length < 2) {
@@ -145,6 +165,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Marks a task as done.
+     *
+     * @param inputs The user input split into command and arguments.
+     */
     private void markTaskAsDone(String[] inputs) {
         try {
             if (inputs.length < 2) {
@@ -158,6 +183,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Marks a task as undone.
+     *
+     * @param inputs The user input split into command and arguments.
+     */
     private void markTaskAsUndone(String[] inputs) {
         try {
             if (inputs.length < 2) {
@@ -171,6 +201,11 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Finds tasks that match the given keyword.
+     *
+     * @param inputs The user input split into command and arguments.
+     */
     private void findTasks(String[] inputs) {
         try {
             if (inputs.length < 2 || inputs[1].trim().isEmpty()) {
@@ -183,6 +218,9 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Displays the exit message.
+     */
     private void displayExitMessage() {
         Formatter.printBorderedMessage("Bye. Hope to see you again soon!");
     }
