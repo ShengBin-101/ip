@@ -11,8 +11,9 @@ import hugo.tasks.Event;
 import hugo.tasks.Todo;
 import hugo.ui.Formatter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-
 
 public class TaskManager {
     private TaskList taskList;
@@ -95,13 +96,13 @@ public class TaskManager {
     private void addDeadline(String[] inputs) {
         try {
             if (inputs.length < 2) {
-                throw new EmptyDescriptionException("Please provide a deadline description and due date.");
+                throw new EmptyDescriptionException("Please provide a deadline description and due date." +
+                        "\nDate/Time Format: yyyy-MM-dd HH:mm");
             }
             String[] deadlineArgs = InputParser.parseDeadlineArgs(inputs[1]);
-            if (deadlineArgs == null) {
-                throw new TaskInputException("Invalid deadline format. Use: deadline <description> /by <due date>");
-            }
-            Deadline deadlineTask = new Deadline(deadlineArgs[0], deadlineArgs[1]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime dueDateTime = LocalDateTime.parse(deadlineArgs[1], formatter);
+            Deadline deadlineTask = new Deadline(deadlineArgs[0], dueDateTime);
             taskList.addTask(deadlineTask);
             storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | EmptyDescriptionException e) {
@@ -126,14 +127,14 @@ public class TaskManager {
         try {
             if (inputs.length < 2) {
                 throw new EmptyDescriptionException("Please provide an event description, start time, and end time. " +
-                        "Use: event <description> /from <start time> /to <end time>");
+                        "Use: event <description> /from <start time> /to <end time>" +
+                        "\nDate/Time Format: yyyy-MM-dd HH:mm");
             }
             String[] eventArgs = InputParser.parseEventArgs(inputs[1]);
-            if (eventArgs == null) {
-                throw new TaskInputException("Invalid event format. " +
-                        "Use: event <description> /from <start time> /to <end time>");
-            }
-            Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime start = LocalDateTime.parse(eventArgs[1], formatter);
+            LocalDateTime end = LocalDateTime.parse(eventArgs[2], formatter);
+            Event eventTask = new Event(eventArgs[0], start, end);
             taskList.addTask(eventTask);
             storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | EmptyDescriptionException e) {

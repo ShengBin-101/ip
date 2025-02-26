@@ -1,41 +1,41 @@
 package hugo.tasks;
 
-public class Deadline extends Task {
-    private String dueDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Deadline(String description, String dueDate) {
+public class Deadline extends Task {
+    private LocalDateTime dueDateTime;
+
+    public Deadline(String description, LocalDateTime dueDateTime) {
         super(description);
-        this.setDueDate(dueDate);
+        this.setDueDateTime(dueDateTime);
     }
 
     // Called when loading data from data file
-    public Deadline(String description, String dueDate, boolean isDone) {
+    public Deadline(String description, LocalDateTime dueDateTime, boolean isDone) {
         super(description);
-        this.setDueDate(dueDate);
+        this.setDueDateTime(dueDateTime);
         this.setIsDone(isDone);
     }
 
     @Override
     public String toString() {
-        return "[D]" + "[" + getStatusIcon() + "] " + getDescription();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+        return "[D]" + "[" + getStatusIcon() + "] " + getDescription() + " (by: " + getDueDateTime().format(formatter) + ")";
     }
 
-    @Override
-    public String getDescription() {
-        return (super.getDescription() + " (by: " + getDueDate() + ")");
+    public LocalDateTime getDueDateTime() {
+        return dueDateTime;
     }
 
-    public String getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDateTime(LocalDateTime dueDateTime) {
+        this.dueDateTime = dueDateTime;
     }
 
     @Override
     public String toFileString() {
         // Format: D | isDone | description | by
-        return "D | " + (this.getIsDone() ? "1" : "0") + " | " + this.description + " | " + this.getDueDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return "D | " + (this.getIsDone() ? "1" : "0") + " | " + this.description + " | " + this.getDueDateTime().format(formatter);
     }
 }

@@ -1,17 +1,20 @@
 package hugo.tasks;
 
-public class Event extends Task {
-    private String from;
-    private String to;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Event(String description, String from, String to) {
+public class Event extends Task {
+    private LocalDateTime from;
+    private LocalDateTime to;
+
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.setFrom(from);
         this.setTo(to);
     }
 
     // Called when loading data from data file
-    public Event(String description, String from, String to, boolean isDone) {
+    public Event(String description, LocalDateTime from, LocalDateTime to, boolean isDone) {
         super(description);
         this.setFrom(from);
         this.setTo(to);
@@ -20,30 +23,32 @@ public class Event extends Task {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
         return "[E]" + "[" + getStatusIcon() + "] " + this.getDescription() +
-                " (from: " + this.getFrom() + " to: " + this.getTo() + ")";
+                " (from: " + this.getFrom().format(formatter) +
+                " to: " + this.getTo().format(formatter) + ")";
     }
 
-    public String getFrom() {
+    public LocalDateTime getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(LocalDateTime from) {
         this.from = from;
     }
 
-    public String getTo() {
+    public LocalDateTime getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(LocalDateTime to) {
         this.to = to;
     }
 
     @Override
     public String toFileString() {
         // Format: E | isDone | description | from | to
-        return "E | " + (this.getIsDone() ? "1" : "0") + " | " + this.description + " | " + this.from + " | " + this.to;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return "E | " + (this.getIsDone() ? "1" : "0") + " | " + this.description + " | " + this.from.format(formatter) + " | " + this.to.format(formatter);
     }
-
 }

@@ -17,7 +17,7 @@ public class Formatter {
     private static final int MINOR_INDENT = 4;
 
     public static void printLine() {
-        System.out.print("____________________________________________________________".indent(MINOR_INDENT));
+        System.out.print("____________________________________________________________________".indent(MINOR_INDENT));
     }
 
     public static void printBorderedMessage(String message) {

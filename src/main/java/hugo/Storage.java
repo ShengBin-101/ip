@@ -8,6 +8,8 @@ import hugo.tasks.Todo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,7 +17,8 @@ import hugo.ui.Formatter;
 
 public class Storage {
 
-    private static final String FILE_PATH = "./data/hugo.txt";
+    private static final String FOLDER_PATH = "./data";
+    private static final String FILE_PATH = FOLDER_PATH + "/hugo.txt";
 
     /**
      * Saves the given task list to the file.
@@ -26,7 +29,7 @@ public class Storage {
     public void saveTasks(ArrayList<Task> tasks) {
         try {
             // Ensure the directory exists
-            File directory = new File("./data");
+            File directory = new File(FOLDER_PATH);
             if (!directory.exists()) {
                 directory.mkdirs(); // Create the directory if it doesn't exist
             }
@@ -78,7 +81,7 @@ public class Storage {
         } catch (IOException e) {
             Formatter.printBorderedMessage("Something went wrong while loading tasks: " + e.getMessage());
         }
-        Formatter.printBorderedMessage("Loaded " + tasks.size() + " tasks from "+ FILE_PATH + ".");
+        Formatter.printBorderedMessage("Loaded " + tasks.size() + " tasks from " + FILE_PATH + ".");
         return tasks;
     }
 
@@ -99,6 +102,8 @@ public class Storage {
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         switch (type) {
         case "T":
             return new Todo(description, isDone);
@@ -106,12 +111,15 @@ public class Storage {
             if (parts.length < 4) {
                 return null; // Invalid format for Deadline
             }
-            return new Deadline(description, parts[3], isDone);
+            LocalDateTime dueDateTime = LocalDateTime.parse(parts[3], dateTimeFormatter);
+            return new Deadline(description, dueDateTime, isDone);
         case "E":
             if (parts.length < 5) {
                 return null; // Invalid format for Event
             }
-            return new Event(description, parts[3], parts[4], isDone);
+            LocalDateTime from = LocalDateTime.parse(parts[3], dateTimeFormatter);
+            LocalDateTime to = LocalDateTime.parse(parts[4], dateTimeFormatter);
+            return new Event(description, from, to, isDone);
         default:
             return null; // Unknown task type
         }
