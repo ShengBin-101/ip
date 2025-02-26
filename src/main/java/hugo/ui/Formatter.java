@@ -46,6 +46,17 @@ public class Formatter {
         printLine();
     }
 
+    public static void printMatchingTaskList(ArrayList<Task> tasks) {
+        printLine();
+        printSimpleMessage("Here are the matching tasks in your list:");
+        int count = 0;
+        for (Task task : tasks) {
+            count += 1;
+            printSimpleMessage(count + "." + task.toString());
+        }
+        printLine();
+    }
+
     public static void printTaskStatusChange(String message, Task task, int totalTasks) {
         printLine();
         printSimpleMessage(message);
