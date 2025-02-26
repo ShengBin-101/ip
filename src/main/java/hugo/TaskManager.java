@@ -8,24 +8,21 @@ import hugo.exceptions.CommandInputException;
 
 import hugo.tasks.Deadline;
 import hugo.tasks.Event;
-import hugo.tasks.Task;
 import hugo.tasks.Todo;
 import hugo.ui.Formatter;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class TaskManager {
 
-    private ArrayList<Task> tasks;
+public class TaskManager {
+    private TaskList taskList;
     private Storage storage;
 
     public TaskManager() {
-        this.tasks = new ArrayList<>();
         this.storage = new Storage();
-        this.tasks = storage.loadTasks();
-        if ( tasks.size() > 0 ) {
-            listTasks();
+        this.taskList = new TaskList(storage.loadTasks());
+        if (taskList.size() > 0) {
+            taskList.listTasks();
         }
     }
 
@@ -35,7 +32,6 @@ public class TaskManager {
         Scanner scanner = new Scanner(System.in);
 
         while (isAskingInput) {
-
             if (!scanner.hasNextLine()) {  // Prevents NoSuchElementException
                 break;
             }
@@ -60,7 +56,7 @@ public class TaskManager {
                         addEvent(inputs);
                         break;
                     case "list":
-                        listTasks();
+                        taskList.listTasks();
                         break;
                     case "mark":
                         markTaskAsDone(inputs);
@@ -75,7 +71,7 @@ public class TaskManager {
                     default:
                         throw new CommandInputException("Unknown command.");
                     }
-                    storage.saveTasks(tasks); // Save tasks after change in tasks
+                    storage.saveTasks(taskList.getTasks()); // Save tasks after change in tasks
                 } catch (CommandInputException e) {
                     Formatter.printBorderedMessage(e.getMessage());
                 }
@@ -89,12 +85,8 @@ public class TaskManager {
                 throw new TaskInputException("Please provide a task number to delete.");
             }
             int taskId = Integer.parseInt(inputs[1]) - 1;
-            if (taskId < 0 || taskId >= tasks.size()) {
-                throw new TaskNotFoundException("Invalid task id.");
-            }
-            Task deletedTask = tasks.remove(taskId);
-            Formatter.printTaskStatusChange("Noted. I've removed this task::",
-                    deletedTask, tasks.size());
+            taskList.deleteTask(taskId);
+            storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | TaskNotFoundException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
@@ -110,8 +102,8 @@ public class TaskManager {
                 throw new TaskInputException("Invalid deadline format. Use: deadline <description> /by <due date>");
             }
             Deadline deadlineTask = new Deadline(deadlineArgs[0], deadlineArgs[1]);
-            tasks.add(deadlineTask);
-            Formatter.printTaskStatusChange("Got it. I've added this task:", deadlineTask, tasks.size());
+            taskList.addTask(deadlineTask);
+            storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | EmptyDescriptionException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
@@ -119,13 +111,12 @@ public class TaskManager {
 
     private void addToDo(String[] inputs) {
         try {
-            // Check if the description is empty or contains only whitespace
             if (inputs.length < 2 || inputs[1].trim().isEmpty()) {
                 throw new EmptyDescriptionException("Please provide a todo description.");
             }
             Todo todoTask = new Todo(inputs[1].trim());
-            tasks.add(todoTask);
-            Formatter.printTaskStatusChange("Got it. I've added this task:", todoTask, tasks.size());
+            taskList.addTask(todoTask);
+            storage.saveTasks(taskList.getTasks());
         } catch (EmptyDescriptionException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
@@ -137,22 +128,17 @@ public class TaskManager {
                 throw new EmptyDescriptionException("Please provide an event description, start time, and end time. " +
                         "Use: event <description> /from <start time> /to <end time>");
             }
-            // Extract [eventDescription, startTime, endTime] from inputs following "event" command
             String[] eventArgs = InputParser.parseEventArgs(inputs[1]);
             if (eventArgs == null) {
                 throw new TaskInputException("Invalid event format. " +
                         "Use: event <description> /from <start time> /to <end time>");
             }
             Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
-            tasks.add(eventTask);
-            Formatter.printTaskStatusChange("Got it. I've added this task:", eventTask, tasks.size());
+            taskList.addTask(eventTask);
+            storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | EmptyDescriptionException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
-    }
-
-    private void listTasks() {
-        Formatter.printTaskList(tasks);
     }
 
     private void markTaskAsDone(String[] inputs) {
@@ -161,15 +147,8 @@ public class TaskManager {
                 throw new TaskInputException("Please provide a task number to mark as done.");
             }
             int taskId = Integer.parseInt(inputs[1]) - 1;
-            if (taskId < 0 || taskId >= tasks.size()) {
-                throw new TaskNotFoundException("Invalid task id.");
-            }
-            if (tasks.get(taskId).getIsDone()) {
-                throw new InvalidTaskStateException("Task is already marked.");
-            }
-            tasks.get(taskId).setIsDone(true);
-            Formatter.printTaskStatusChange("Nice! I've marked this task as done:",
-                    tasks.get(taskId), tasks.size());
+            taskList.markTaskAsDone(taskId);
+            storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | TaskNotFoundException | InvalidTaskStateException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
@@ -181,15 +160,8 @@ public class TaskManager {
                 throw new TaskInputException("Please provide a task number to unmark.");
             }
             int taskId = Integer.parseInt(inputs[1]) - 1;
-            if (taskId < 0 || taskId >= tasks.size()) {
-                throw new TaskNotFoundException("Invalid task id.");
-            }
-            if (!tasks.get(taskId).getIsDone()) {
-                throw new InvalidTaskStateException("Task is already unmarked.");
-            }
-            tasks.get(taskId).setIsDone(false);
-            Formatter.printTaskStatusChange("OK, I've marked this task as not done yet:",
-                    tasks.get(taskId), tasks.size());
+            taskList.markTaskAsUndone(taskId);
+            storage.saveTasks(taskList.getTasks());
         } catch (TaskInputException | TaskNotFoundException | InvalidTaskStateException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }

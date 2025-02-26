@@ -51,7 +51,7 @@ public class Storage {
      * @return An ArrayList of Task objects loaded from the file.
      */
     public ArrayList<Task> loadTasks() {
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = new ArrayList<Task>();
         File file = new File(FILE_PATH);
 
         try {
