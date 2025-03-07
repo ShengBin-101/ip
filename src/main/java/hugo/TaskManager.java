@@ -19,7 +19,7 @@ public class TaskManager {
     private TaskList taskList;
     private Storage storage;
 
-    public TaskManager() {
+        public TaskManager() {
         this.storage = new Storage();
         this.taskList = new TaskList(storage.loadTasks());
         if (taskList.size() > 0) {
@@ -27,7 +27,7 @@ public class TaskManager {
         }
     }
 
-    public void askInput() {
+        public void askInput() {
         boolean isAskingInput = true;
         String userInputLine;
         Scanner scanner = new Scanner(System.in);
@@ -93,9 +93,11 @@ public class TaskManager {
             if (inputs.length < 2) {
                 throw new TaskInputException("Please provide a task number to delete.");
             }
-            int taskId = Integer.parseInt(inputs[1]) - 1;
+            int taskId = Integer.parseInt(inputs[1].trim()) - 1;
             taskList.deleteTask(taskId);
             storage.saveTasks(taskList.getTasks());
+        } catch (NumberFormatException e) {
+            Formatter.printBorderedMessage("Invalid task number format. Please provide a valid number.");
         } catch (TaskInputException | TaskNotFoundException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
@@ -175,9 +177,11 @@ public class TaskManager {
             if (inputs.length < 2) {
                 throw new TaskInputException("Please provide a task number to mark as done.");
             }
-            int taskId = Integer.parseInt(inputs[1]) - 1;
+            int taskId = Integer.parseInt(inputs[1].trim()) - 1;
             taskList.markTaskAsDone(taskId);
             storage.saveTasks(taskList.getTasks());
+        } catch (NumberFormatException e) {
+            Formatter.printBorderedMessage("Invalid task number format. Please provide a valid number.");
         } catch (TaskInputException | TaskNotFoundException | InvalidTaskStateException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
@@ -193,9 +197,11 @@ public class TaskManager {
             if (inputs.length < 2) {
                 throw new TaskInputException("Please provide a task number to unmark.");
             }
-            int taskId = Integer.parseInt(inputs[1]) - 1;
+            int taskId = Integer.parseInt(inputs[1].trim()) - 1;
             taskList.markTaskAsUndone(taskId);
             storage.saveTasks(taskList.getTasks());
+        } catch (NumberFormatException e) {
+            Formatter.printBorderedMessage("Invalid task number format. Please provide a valid number.");
         } catch (TaskInputException | TaskNotFoundException | InvalidTaskStateException e) {
             Formatter.printBorderedMessage(e.getMessage());
         }
