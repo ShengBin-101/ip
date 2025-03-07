@@ -5,7 +5,7 @@ Hugo is a desktop app for managing tasks, optimized for use via a Command Line I
 ## Quick start
 
 1. Ensure you have Java 17 or above installed on your computer.
-2. Download the latest `hugo.jar` file from [here](#).
+2. Download the latest `hugo.jar` file from [here](https://github.com/ShengBin-101/ip/releases/download/A-Release/hugo.jar).
 3. Copy the file to the folder you want to use as the home folder for Hugo.
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar hugo.jar` command to run the application.
 5. Type the command in the command box and press Enter to execute it. e.g., typing `help` and pressing Enter will open the help window.
