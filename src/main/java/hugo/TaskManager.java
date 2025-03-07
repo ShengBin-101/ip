@@ -19,7 +19,7 @@ public class TaskManager {
     private TaskList taskList;
     private Storage storage;
 
-        public TaskManager() {
+    public TaskManager() {
         this.storage = new Storage();
         this.taskList = new TaskList(storage.loadTasks());
         if (taskList.size() > 0) {
@@ -27,7 +27,7 @@ public class TaskManager {
         }
     }
 
-        public void askInput() {
+    public void askInput() {
         boolean isAskingInput = true;
         String userInputLine;
         Scanner scanner = new Scanner(System.in);
